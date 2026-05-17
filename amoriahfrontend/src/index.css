@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* paste into src/index.css or globals.css */
+:root{
+  --pink-1: #ffd6e8;
+  --pink-2: #ffb6d9;
+  --lav-1: #e9d7ff;
+  --glass-bg: rgba(255,255,255,0.55);
+}
+
+/* animated gradient border for featured cards */
+.gradient-border {
+  position: relative;
+  border-radius: 20px;
+}
+.gradient-border::before{
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: 22px;
+  background: linear-gradient(90deg,#ffb6d9,#d3b3ff,#ffd6e8);
+  filter: blur(8px);
+  opacity: 0.6;
+}
+
+/* small glassy panel */
+.glass {
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* subtle floating */
+.float-anim{ transition: transform .35s cubic-bezier(.2,.9,.3,1); }
+.float-anim:hover{ transform: translateY(-8px) scale(1.01); }
+
+/* product image overlay soft */
+.card-img-overlay {
+  background: linear-gradient(180deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.6) 100%);
+}
+
+/* small chip active */
+.chip-active {
+  background: linear-gradient(90deg,#ffb6d9,#d3b3ff);
+  color: #4b0555;
+  box-shadow: 0 6px 18px rgba(211,179,255,0.18);
+}
+
+
