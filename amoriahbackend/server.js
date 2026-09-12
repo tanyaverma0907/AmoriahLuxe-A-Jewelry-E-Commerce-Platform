@@ -122,9 +122,14 @@ app.get('/api/products', async (req, res) => {
     
     const result = await pool.query(query);
     res.status(200).json(result.rows);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).json({ error: 'Database fetch failed' });
+    } catch (error) {
+    console.error('PRODUCTS DATABASE ERROR:', error.message);
+    console.error('PRODUCTS DATABASE ERROR CODE:', error.code);
+
+    res.status(500).json({
+      error: 'Database fetch failed',
+      details: error.message
+    });
   }
 });
 
