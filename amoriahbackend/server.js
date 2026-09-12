@@ -22,13 +22,16 @@ app.get('/', (req, res) => {
 app.get('/db-test', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
+
     res.json({
       success: true,
       message: 'Neon PostgreSQL connected successfully!',
       time: result.rows[0].now
     });
   } catch (error) {
-    console.error('Database test failed:', error);
+    console.error('DATABASE ERROR:', error.message);
+    console.error('DATABASE ERROR CODE:', error.code);
+
     res.status(500).json({
       success: false,
       message: 'Database connection failed'
