@@ -19,6 +19,23 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Amoriah Backend API');
 });
 
+app.get('/db-test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({
+      success: true,
+      message: 'Neon PostgreSQL connected successfully!',
+      time: result.rows[0].now
+    });
+  } catch (error) {
+    console.error('Database test failed:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Database connection failed'
+    });
+  }
+});
+
 // 2. Authentication Routes: Sign Up
 app.post('/api/signup', async (req, res) => {
   const { username, email, password } = req.body;
