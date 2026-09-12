@@ -8,30 +8,29 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (product) => {
-  const pid = product._id || product.id; // FIXED ID HANDLING
+    const pid = product._id || product.id; // FIXED ID HANDLING
 
-  setCartItems((prev) => {
-    const existing = prev.find((item) => item._id === pid);
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item._id === pid);
 
-    if (existing) {
-      return prev.map((item) =>
-        item._id === pid ? { ...item, quantity: item.quantity + 1 } : item
-      );
-    }
+      if (existing) {
+        return prev.map((item) =>
+          item._id === pid ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
 
-    return [...prev, { ...product, _id: pid, quantity: 1 }];
-  });
-};
-
-
-  const removeFromCart = (_id) => {
-    setCartItems((prevCart) => prevCart.filter((item) => item._id !== _id));
+      return [...prev, { ...product, _id: pid, id: pid, quantity: 1 }];
+    });
   };
 
-  const updateQuantity = (_id, quantity) => {
+  const removeFromCart = (id) => {
+    setCartItems((prevCart) => prevCart.filter((item) => item._id !== id));
+  };
+
+  const updateQuantity = (id, quantity) => {
     setCartItems((prevCart) =>
       prevCart.map((item) =>
-        item._id === _id ? { ...item, quantity } : item
+        item._id === id ? { ...item, quantity } : item
       )
     );
   };
@@ -44,6 +43,10 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        // 👇 FIX: Cart.jsx (and other consumers) read `cart`, but this
+        // context only ever exposed `cartItems`, so `cart` was always
+        // undefined and the page rendered as empty. Exposing both now.
+        cart: cartItems,
         cartItems,
         addToCart,
         removeFromCart,
@@ -56,6 +59,3 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
-
-
-

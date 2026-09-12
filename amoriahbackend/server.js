@@ -1,52 +1,3 @@
-
-// require("dotenv").config();
-// const express = require("express");
-// const cors = require("cors");
-// const connectDB = require("./config/db");
-
-// const app = express();
-
-// /* =====================
-//    MIDDLEWARES
-// ===================== */
-
-// // Allow frontend (mobile + desktop)
-// app.use(
-//   cors({
-//     origin: "*", // for development
-//     credentials: true,
-//   })
-// );
-
-// // Parse JSON bodies
-// app.use(express.json());
-
-// // Connect MongoDB
-// connectDB();
-
-// /* =====================
-//    ROUTES
-// ===================== */
-
-// // Product routes
-// app.use("/api/products", require("./routes/productRoutes"));
-
-// // Health check
-// app.get("/", (req, res) => {
-//   res.send("Bliss Backend is Running 💖");
-// });
-
-// /* =====================
-//    SERVER START
-// ===================== */
-
-// const PORT = process.env.PORT || 5000;
-
-// // IMPORTANT → 0.0.0.0 allows phone access
-// app.listen(PORT, "0.0.0.0", () => {
-//   console.log(`🚀 Server running on port ${PORT}`);
-// });
-
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -87,7 +38,7 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/payments", require("./routes/paymentRoutes"));
 
-// Root
+// root
 app.get("/", (req, res) => {
   res.json({ message: "Bliss By Tanya API Running 🚀" });
 });
@@ -99,5 +50,5 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () =>
-  console.log(`🔥 Server running on port ${PORT}`)
+  console.log(` Server running on port ${PORT}`)
 );

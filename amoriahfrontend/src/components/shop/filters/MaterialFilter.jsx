@@ -1,9 +1,7 @@
-
-
 import React, { useState } from "react";
 
 const materials = [
-  { label: "14k Gold", color: "#d4a017" },
+  { label: "Yellow Gold", color: "#d4a017" },
   { label: "Vermeil", color: "#c9a86c" },
   { label: "Sterling Silver", color: "#a8a9ad" },
   { label: "Rose Gold", color: "#b76e79" },
@@ -29,10 +27,10 @@ const MaterialFilter = ({ filters, setFilters }) => {
         </svg>
       </button>
 
-      <div className={`overflow-hidden transition-all duration-300 ${open ? "max-h-72 pt-2" : "max-h-0"}`}>
+      <div className={`overflow-hidden transition-all duration-300 ${open ? "max-h-96 pt-2" : "max-h-0"}`}>
         <div className="flex flex-col gap-1">
           {materials.map(({ label, color }) => {
-            const active = filters.material === label;
+            const active = filters?.material === label;
             return (
               <button
                 key={label}
@@ -43,7 +41,6 @@ const MaterialFilter = ({ filters, setFilters }) => {
                     : "text-[#6b5744] hover:bg-[#faf5ee] hover:text-[#4a3426]"
                   }`}
               >
-                {/* Color swatch */}
                 <span
                   className="w-4 h-4 rounded-full border-2 shrink-0"
                   style={{
@@ -67,4 +64,3 @@ const MaterialFilter = ({ filters, setFilters }) => {
 };
 
 export default MaterialFilter;
-

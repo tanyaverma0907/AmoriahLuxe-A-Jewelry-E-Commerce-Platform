@@ -28,15 +28,14 @@ export const WishlistProvider = ({ children }) => {
     setWishlist((prev) => {
       if (prev.some((item) => getId(item) === pid)) return prev;
 
-      return [...prev, { ...product, _id: pid }];
+      // 👇 keep both _id and id in sync so any consumer reading either works
+      return [...prev, { ...product, _id: pid, id: pid }];
     });
   };
 
   // ⭐ Remove item
   const removeFromWishlist = (id) => {
-    setWishlist((prev) =>
-      prev.filter((item) => getId(item) !== id)
-    );
+    setWishlist((prev) => prev.filter((item) => getId(item) !== id));
   };
 
   // ⭐ Check if exists
@@ -72,4 +71,3 @@ export const WishlistProvider = ({ children }) => {
 
 // 🔹 Custom Hook
 export const useWishlist = () => useContext(WishListContext);
-

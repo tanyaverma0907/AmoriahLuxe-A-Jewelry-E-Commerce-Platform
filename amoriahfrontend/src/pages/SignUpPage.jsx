@@ -1,10 +1,13 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff, FiMail, FiLock, FiUser, FiArrowRight } from "react-icons/fi";
 
 const SignUpPage = () => {
-  const navigate = useNavigate(); // Navigation system function instance initialization
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -20,25 +23,48 @@ const SignUpPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Operational Registration Logic goes here
-    console.log("Registering new atelier identity context:", formData);
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to register");
+      }
+
+      // Redirect to signin page upon successful registration
+      navigate("/signin");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="bg-[#f8f5f1] text-[#2a1b10] antialiased min-h-[90vh] flex items-center justify-center selection:bg-[#c58b2b]/20 px-4 sm:px-6 lg:px-8 py-12">
-      
-      {/* ================= GLOBAL FORM CONTAINER WRAPPER ================= */}
       <div className="max-w-5xl w-full bg-white rounded-[2.5rem] border border-[#e5dfd7]/60 shadow-[0_30px_70px_rgba(42,27,16,0.02)] overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[600px]">
         
-        {/* LEFT COLUMN: EDITORIAL IDENTITY BLOCK (Hidden on Small Screens) */}
+        {/* LEFT COLUMN: EDITORIAL IDENTITY BLOCK */}
         <div className="hidden md:flex md:col-span-5 bg-[#2a1b10] text-[#f8f5f1] p-12 flex-col justify-between relative overflow-hidden">
-          {/* Decorative Backmask Pattern */}
           <div className="absolute bottom-[-20%] right-[-10%] font-serif font-light text-[14rem] text-white/[0.02] pointer-events-none select-none">
             M
           </div>
-          
           <div className="space-y-1.5 relative z-10">
             <span className="text-[9px] uppercase tracking-[0.4em] text-[#c58b2b] font-bold block">
               Maison Membership
@@ -47,14 +73,12 @@ const SignUpPage = () => {
               Join the Collective
             </h3>
           </div>
-
           <div className="space-y-4 relative z-10">
             <p className="font-serif italic text-sm text-[#f8f5f1]/70 leading-relaxed">
               "Unlock early collection matrices, personalized bespoke parameters, and intuitive order system environments."
             </p>
             <div className="h-[1px] w-8 bg-[#c58b2b]" />
           </div>
-
           <p className="text-[9px] uppercase tracking-[0.2em] text-[#f8f5f1]/40 relative z-10">
             &copy; {new Date().getFullYear()} AMORIAH CORE.
           </p>
@@ -62,8 +86,6 @@ const SignUpPage = () => {
 
         {/* RIGHT COLUMN: INTERACTIVE INPUT SUB-SYSTEM */}
         <div className="col-span-1 md:col-span-7 p-8 sm:p-12 lg:p-16 flex flex-col justify-center bg-white">
-          
-          {/* Section Headers */}
           <div className="space-y-2 mb-8">
             <span className="text-[9px] uppercase tracking-[0.3em] text-[#c58b2b] font-bold block">
               Registration Framework
@@ -76,10 +98,13 @@ const SignUpPage = () => {
             </p>
           </div>
 
-          {/* Form Fields Chassis */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-5">
-            
-            {/* INPUT FIELD A: FULL NAME */}
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase tracking-widest text-[#8c7b6e] font-semibold block">
                 Full Identity Name
@@ -100,7 +125,6 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            {/* INPUT FIELD B: EMAIL */}
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase tracking-widest text-[#8c7b6e] font-semibold block">
                 Email Address
@@ -121,7 +145,6 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            {/* INPUT FIELD C: PASSWORD */}
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase tracking-widest text-[#8c7b6e] font-semibold block">
                 Create Security Key
@@ -139,7 +162,6 @@ const SignUpPage = () => {
                   placeholder="••••••••"
                   className="w-full bg-transparent text-xs text-[#2a1b10] pl-11 pr-12 py-4 focus:outline-none font-mono tracking-widest"
                 />
-                {/* Toggle Mask Input Button */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -150,7 +172,6 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            {/* BRAND POLICY AGREEMENT CHECKBOX */}
             <div className="flex items-start gap-3 pt-1 select-none">
               <input
                 type="checkbox"
@@ -166,24 +187,21 @@ const SignUpPage = () => {
               </label>
             </div>
 
-            {/* PIPELINE CONVERSION CALL-TO-ACTION INJECTION */}
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full bg-[#2a1b10] text-[#f8f5f1] py-4 rounded-xl flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-[#c58b2b] transition-all duration-500 shadow-md hover:translate-y-[-1px]"
+                disabled={loading}
+                className="w-full bg-[#2a1b10] text-[#f8f5f1] py-4 rounded-xl flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-[#c58b2b] transition-all duration-500 shadow-md hover:translate-y-[-1px] disabled:opacity-50"
               >
-                <span>Request Invitation</span>
+                <span>{loading ? "Processing..." : "Request Invitation"}</span>
                 <FiArrowRight size={12} />
               </button>
             </div>
-
           </form>
 
-          {/* Subtext Account Redirection Trigger Footer */}
           <div className="mt-8 pt-6 border-t border-[#e5dfd7]/60 text-center">
             <p className="text-xs text-[#8c7b6e] font-light">
               Already authenticated?{" "}
-              {/* Programmatic Navigation setup using button and onClick hook execution */}
               <button
                 type="button"
                 onClick={() => navigate("/signin")}
@@ -193,9 +211,7 @@ const SignUpPage = () => {
               </button>
             </p>
           </div>
-
         </div>
-
       </div>
     </div>
   );
