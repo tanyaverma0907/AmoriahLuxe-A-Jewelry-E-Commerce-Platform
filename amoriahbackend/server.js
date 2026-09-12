@@ -15,6 +15,10 @@ const JWT_SECRET = process.env.JWT_SECRET || '5c5614741ab20ff647c63544b7745e737c
 app.use(cors()); // Enable CORS for frontend requests
 app.use(express.json()); // JSON body parsing middleware
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the Amoriah Backend API');
+});
+
 // 2. Authentication Routes: Sign Up
 app.post('/api/signup', async (req, res) => {
   const { username, email, password } = req.body;
