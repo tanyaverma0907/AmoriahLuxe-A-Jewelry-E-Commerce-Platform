@@ -1426,40 +1426,71 @@ export default function ShopPage() {
   );
 
   /* ── FETCH ── */
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       setLoading(true);
+  //       const r = await fetch("https://amoriah-backend.onrender.com/api/products");
+  //       if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  //       const d = await r.json();
+  //       const rawList = Array.isArray(d) ? d : (d.products || d.data || []);
+
+  //       // 👇 debug ke liye: pehla product jaisa API se aata hai waisa dekho
+  //       console.log("Raw product from API:", rawList[0]);
+
+  //       setProducts(rawList.map(normalizeProduct));
+  //     } catch (e) {
+  //       setError(e.message);
+  //       setProducts([
+  //         { _id:"p1", name:"Halo Diamond Ring", type:"Rings",     material:"Yellow Gold",       price:2999, rating:5, badge:"New",  image:"https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600" },
+  //         { _id:"p2", name:"Sapphire Drop Earrings", type:"Earrings", material:"Vermeil",    price:1149, rating:4, badge:"Hot",  image:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600" },
+  //         { _id:"p3", name:"Infinity Gold Necklace", type:"Necklaces",material:"Yellow Gold",   price:3499, rating:5, badge:null,   image:"https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600" },
+  //         { _id:"p4", name:"Diamond Tennis Bracelet",type:"Bracelets",material:"Yellow Gold",   price:4299, rating:5, badge:"Sale", image:"https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=600", originalPrice:5499 },
+  //         { _id:"p5", name:"Twisted Gold Hoops",    type:"Earrings", material:"Yellow Gold",    price:1799, rating:4, badge:null,   image:"https://images.unsplash.com/photo-1629224316810-9d8805b95e76?w=600" },
+  //         { _id:"p6", name:"Rose Signet Ring",       type:"Rings",    material:"Rose Gold",  price:849,  rating:3, badge:null,   image:"https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=600" },
+  //         { _id:"p7", name:"Serpent Chain Necklace", type:"Necklaces",material:"Vermeil",    price:1299, rating:5, badge:"New",  image:"https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600" },
+  //         { _id:"p8", name:"Charm Bangle Set",       type:"Bracelets",material:"Rose Gold",  price:1899, rating:4, badge:null,   image:"https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600" },
+  //         { _id:"p9", name:"Pearl Stud Earrings",    type:"Earrings", material:"Vermeil",    price:649,  rating:4, badge:null,   image:"https://images.unsplash.com/photo-1629224316810-9d8805b95e76?w=600" },
+  //         { _id:"p10",name:"Vintage Band Ring",      type:"Rings",    material:"Yellow Gold",   price:3199, rating:5, badge:"Limited",image:"https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=700" },
+  //         { _id:"p11",name:"Layered Coin Necklace",  type:"Necklaces",material:"Yellow Gold",   price:2299, rating:4, badge:null,   image:"https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=700" },
+  //         { _id:"p12",name:"Gold Cuff Bracelet",     type:"Bracelets",material:"Sterling Silver",   price:2799, rating:4, badge:"Sale", image:"https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=700", originalPrice:3299 },
+  //       ]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   })();
+  // }, []);
+
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const r = await fetch("http://localhost:5000/api/products");
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        const d = await r.json();
-        const rawList = Array.isArray(d) ? d : (d.products || d.data || []);
+  (async () => {
+    try {
+      setLoading(true);
 
-        // 👇 debug ke liye: pehla product jaisa API se aata hai waisa dekho
-        console.log("Raw product from API:", rawList[0]);
+      const r = await fetch(
+        "https://amoriah-backend.onrender.com/api/products"
+      );
 
-        setProducts(rawList.map(normalizeProduct));
-      } catch (e) {
-        setError(e.message);
-        setProducts([
-          { _id:"p1", name:"Halo Diamond Ring", type:"Rings",     material:"Yellow Gold",       price:2999, rating:5, badge:"New",  image:"https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600" },
-          { _id:"p2", name:"Sapphire Drop Earrings", type:"Earrings", material:"Vermeil",    price:1149, rating:4, badge:"Hot",  image:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600" },
-          { _id:"p3", name:"Infinity Gold Necklace", type:"Necklaces",material:"Yellow Gold",   price:3499, rating:5, badge:null,   image:"https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600" },
-          { _id:"p4", name:"Diamond Tennis Bracelet",type:"Bracelets",material:"Yellow Gold",   price:4299, rating:5, badge:"Sale", image:"https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=600", originalPrice:5499 },
-          { _id:"p5", name:"Twisted Gold Hoops",    type:"Earrings", material:"Yellow Gold",    price:1799, rating:4, badge:null,   image:"https://images.unsplash.com/photo-1629224316810-9d8805b95e76?w=600" },
-          { _id:"p6", name:"Rose Signet Ring",       type:"Rings",    material:"Rose Gold",  price:849,  rating:3, badge:null,   image:"https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=600" },
-          { _id:"p7", name:"Serpent Chain Necklace", type:"Necklaces",material:"Vermeil",    price:1299, rating:5, badge:"New",  image:"https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600" },
-          { _id:"p8", name:"Charm Bangle Set",       type:"Bracelets",material:"Rose Gold",  price:1899, rating:4, badge:null,   image:"https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600" },
-          { _id:"p9", name:"Pearl Stud Earrings",    type:"Earrings", material:"Vermeil",    price:649,  rating:4, badge:null,   image:"https://images.unsplash.com/photo-1629224316810-9d8805b95e76?w=600" },
-          { _id:"p10",name:"Vintage Band Ring",      type:"Rings",    material:"Yellow Gold",   price:3199, rating:5, badge:"Limited",image:"https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=700" },
-          { _id:"p11",name:"Layered Coin Necklace",  type:"Necklaces",material:"Yellow Gold",   price:2299, rating:4, badge:null,   image:"https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=700" },
-          { _id:"p12",name:"Gold Cuff Bracelet",     type:"Bracelets",material:"Sterling Silver",   price:2799, rating:4, badge:"Sale", image:"https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=700", originalPrice:3299 },
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+
+      const d = await r.json();
+
+      const rawList = Array.isArray(d)
+        ? d
+        : (d.products || d.data || []);
+
+      console.log("Raw product from API:", rawList[0]);
+
+      setProducts(rawList.map(normalizeProduct));
+
+    } catch (e) {
+      console.error("Failed to load products:", e);
+      setError(e.message);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  })();
+}, []);
 
   /* ── DERIVED ── */
   const FALLBACK_TYPES = ["Rings","Necklaces","Earrings","Bracelets"];
